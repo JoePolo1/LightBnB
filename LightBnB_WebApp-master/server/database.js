@@ -93,7 +93,6 @@ const addUser =  function(user) {
     console.log(result.rows);
     Promise.resolve;
     return result.rows[0];
-    
   })
   .catch((err)  =>  {
     console.log(err.mesage);
@@ -223,10 +222,101 @@ exports.getAllProperties = getAllProperties;
  * @param {{}} property An object containing all of the property details.
  * @return {Promise<{}>} A promise to the property.
  */
+// const addProperty = function(property) {
+//   const propertyId = Object.keys(properties).length + 1;
+//   property.id = propertyId;
+//   properties[propertyId] = property;
+//   return Promise.resolve(property);
+// }
+
+// REFACTROR ADD PROPERTY
 const addProperty = function(property) {
-  const propertyId = Object.keys(properties).length + 1;
-  property.id = propertyId;
-  properties[propertyId] = property;
-  return Promise.resolve(property);
+  const ownerId = property.owner_id;
+  const propTitle = property.title;
+  const propDescription = property.description;
+  const propThumbnail = property.thumbnail_photo_url;
+  const propCoverPic = property.cover_photo_url;
+  const nightlyCost = property.cost_per_night;
+  const propertyStreet = property.street;
+  const propCity = property.city;
+  const propProvince = property.province;
+  const postCode = property.post_code;
+  const propCountry = property.country;
+  const propParking = property.parking_spaces;
+  const numBathrooms = property.number_of_bathrooms;
+  const numBedrooms = property.number_of_bedrooms;
+
+  let newArray = [ownerId, 
+    propTitle, 
+    propDescription, 
+    propThumbnail, 
+    propCoverPic, 
+    nightlyCost,
+    propertyStreet, 
+    propCity, 
+    propProvince, 
+    postCode, 
+    propCountry, 
+    propParking, 
+    numBathrooms, 
+    numBedrooms];
+
+    console.log(`New Array is ${newArray}`);
+
+
+  return pool.query(`INSERT INTO properties 
+    (owner_id, 
+      title, 
+      description, 
+      thumbnail_photo_url, 
+      cover_photo_url, 
+      cost_per_night, 
+      street, 
+      city, 
+      province, 
+      post_code, 
+      country, 
+      parking_spaces, 
+      number_of_bathrooms, 
+      number_of_bedrooms) 
+      VALUES 
+        ($1, 
+        $2, 
+        $3, 
+        $4, 
+        $5, 
+        $6, 
+        $7, 
+        $8, 
+        $9, 
+        $10, 
+        $11, 
+        $12, 
+        $13,
+        $14) 
+        RETURNING *;`, 
+        [ownerId, 
+        propTitle, 
+        propDescription, 
+        propThumbnail, 
+        propCoverPic, 
+        nightlyCost,
+        propertyStreet, 
+        propCity, 
+        propProvince, 
+        postCode, 
+        propCountry, 
+        propParking, 
+        numBathrooms, 
+        numBedrooms])
+  .then((result)  =>  {
+    console.log(`THIS IS A TEST!`);
+    console.log(result.rows);
+    Promise.resolve(result.rows[0]);
+  })
+  .catch((err)  =>  {
+    console.log(err);
+  });
 }
+
 exports.addProperty = addProperty;

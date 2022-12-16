@@ -10,8 +10,6 @@ const pool = new Pool({
   database: 'lightbnb'
 });
 
-// the following assumes that you named your connection variable `pool`
-// pool.query(`SELECT title FROM properties LIMIT 10;`).then(response => {console.log(response)})
 
 /// Users
 
@@ -20,18 +18,7 @@ const pool = new Pool({
  * @param {String} email The email of the user.
  * @return {Promise<{}>} A promise to the user.
  */
-// const getUserWithEmail = function(email) {
-//   let user;
-//   for (const userId in users) {
-//     user = users[userId];
-//     if (user.email.toLowerCase() === email.toLowerCase()) {
-//       break;
-//     } else {
-//       user = null;
-//     }
-//   }
-//   return Promise.resolve(user);
-// }
+
 
 //NEW CODE 
 const getUserWithEmail = function(email) {
@@ -75,12 +62,7 @@ exports.getUserWithId = getUserWithId;
  * @param {{name: string, password: string, email: string}} user
  * @return {Promise<{}>} A promise to the user.
  */
-// const addUser =  function(user) {
-//   const userId = Object.keys(users).length + 1;
-//   user.id = userId;
-//   users[userId] = user;
-//   return Promise.resolve(user);
-// }
+
 
 const addUser =  function(user) {
   const userName = user.name;
@@ -108,14 +90,7 @@ exports.addUser = addUser;
  * @param {string} guest_id The id of the user.
  * @return {Promise<[{}]>} A promise to the reservations.
  */
-// const getAllReservations = function(guest_id, limit = 10) {
-//   return getAllProperties(null, 2);
-// }
 
-// NEW CODE (test to see if working without the limit)
-// const getAllReservations = function(guest_id) {
-//   return getAllProperties(null)
-// }
 
 const getAllReservations = function(guest_id) {
   const guestId = guest_id;
@@ -149,18 +124,6 @@ exports.getAllReservations = getAllReservations;
  * @return {Promise<[{}]>}  A promise to the properties.
  */
 
-// OLD CODE 
-// const getAllProperties = (options, limit = 10) => {
-//   return pool
-//   .query('SELECT * FROM properties LIMIT $1', [limit])
-//   .then((result)  =>  {
-//     console.log(result.rows);
-//     return result.rows;
-//   })
-//   .catch((err)  =>  {
-//     console.log(err.mesage);
-//   });
-// };
 
 // REFACTOR
 const getAllProperties = function (options, limit = 10) {
@@ -222,12 +185,7 @@ exports.getAllProperties = getAllProperties;
  * @param {{}} property An object containing all of the property details.
  * @return {Promise<{}>} A promise to the property.
  */
-// const addProperty = function(property) {
-//   const propertyId = Object.keys(properties).length + 1;
-//   property.id = propertyId;
-//   properties[propertyId] = property;
-//   return Promise.resolve(property);
-// }
+
 
 // REFACTROR ADD PROPERTY
 const addProperty = function(property) {
@@ -310,7 +268,6 @@ const addProperty = function(property) {
         numBathrooms, 
         numBedrooms])
   .then((result)  =>  {
-    console.log(`THIS IS A TEST!`);
     console.log(result.rows);
     Promise.resolve(result.rows[0]);
   })
